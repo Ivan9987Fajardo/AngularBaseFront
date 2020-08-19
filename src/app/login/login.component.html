@@ -1,0 +1,18 @@
+<h2>Login Page</h2><br>    
+    <div  class="login">    
+    <form [formGroup]="form" id="login">    
+        <label><b>User Name     
+        </b>    
+        </label>    
+        <input type="text" formControlName='userId' placeholder="Username">    
+        <br><br>    
+        <label><b>Password     
+        </b>    
+        </label>    
+        <input type="Password" formControlName='password' placeholder="Password">    
+        <br><br>    
+        <input type="button" name="log" id="log" value="Log In Here" (click)="onSubmit()">    
+    </form> 
+    </div>
+
+       
