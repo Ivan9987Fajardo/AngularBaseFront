@@ -30,9 +30,9 @@ export class LoginComponent implements OnInit {
 
     this.login.login(this.form.getRawValue()).subscribe(data=> {
       console.log(data);
-       
+      
     })
-  
+   
     
     
   }

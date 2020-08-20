@@ -42,6 +42,10 @@ export class AESEncryptDecryptService {
   }
 
   setKey(value: string){
-    // this.secretKey = value;
+    this.key = value;
+  }
+
+  getKey(){
+    return this.key;
   }
 }
