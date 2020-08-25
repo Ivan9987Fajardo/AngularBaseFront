@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { AESEncryptDecryptService } from '../services/aesencrypt-decrypt.service';
 import { LoginService } from '../services/login.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,8 @@ export class LoginComponent implements OnInit {
 
   form: FormGroup;
   constructor(
-    private login: LoginService
+    private login: LoginService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -31,6 +33,7 @@ export class LoginComponent implements OnInit {
     this.login.login(this.form.getRawValue()).subscribe(data=> {
       console.log(data);
       
+      this.router.navigateByUrl('/home');
     })
    
     

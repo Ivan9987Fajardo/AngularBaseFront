@@ -6,7 +6,6 @@ import * as CryptoJS from 'crypto-js';
 })
 export class AESEncryptDecryptService {
 
-  key;
   initialKey = 'bpCkhycb7fQB_@@L**kC6W@YT%WjQJUr$_vLKyEb3=H&k?KtT8AEBhZt7&#TxD%GCuANf6JH_M#Je_z%9HFHV-43@s?CTwX5BaB5q-Anf4Fb?WQ6qr2k6w9p9Lq&8jLU';
   constructor() { }
 
@@ -34,18 +33,29 @@ export class AESEncryptDecryptService {
     var key = CryptoJS.PBKDF2(passphrase, salt, { hasher: CryptoJS.algo.SHA512, keySize: 64/8, iterations: 949});
     var encrypted = CryptoJS.AES.encrypt(data, key, { iv: iv});
 
-    return encrypted.toString();
+    return this.ascii_to_hexa(encrypted.toString());
   }
+
+  ascii_to_hexa(str)
+  {
+	var arr1 = [];
+	for (var n = 0, l = str.length; n < l; n ++) 
+     {
+		var hex = Number(str.charCodeAt(n)).toString(16);
+		arr1.push(hex);
+	 }
+	return arr1.join('');
+   }
 
   getInitialKey(){
     return this.initialKey;
   }
 
   setKey(value: string){
-    this.key = value;
+    sessionStorage.setItem('key',value);
   }
 
   getKey(){
-    return this.key;
+    return sessionStorage.getItem('key');
   }
 }

@@ -5,14 +5,14 @@ import { fromEvent } from 'rxjs';
 import { tap, map } from 'rxjs/operators';
 import { JsonPipe } from '@angular/common';
 import { stringify } from 'querystring';
+import { HttpService } from './http.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
-  apiUrl = 'http://localhost/PHPBaseBack/public/'
   constructor(
-    private http: HttpClient,
+    private http: HttpService,
     private encrypt: AESEncryptDecryptService
     ) { }
 
@@ -20,20 +20,14 @@ export class LoginService {
   login(data){
     
     this.encrypt.setKey(this.encrypt.getInitialKey());
-    return this.postBase('auth/login',data);
-    
+    localStorage.setItem('user',this.encrypt.CryptoJSAesEncrypt(this.encrypt.getInitialKey(),data.userId));
+    return this.http.postBase('/auth/login',data).pipe(tap((data:any)=>{
+      }, (err)=>{
+        localStorage.removeItem('user');
+      }
+    ));
+  }
+
+
   
-  }
-
-
-  postBase(url,data){
-    var body = {};
-    var key = this.encrypt.getKey();
-    body[this.encrypt.CryptoJSAesEncrypt(key,data.userId)]= this.encrypt.CryptoJSAesEncrypt(key, JSON.stringify(data));
-    return this.http.post(this.apiUrl+ url ,body).pipe(tap((ev:any) => this.encrypt.setKey(JSON.parse(this.encrypt.CryptoJSAesDecrypt(this.encrypt.getKey(),ev.data)).newHash)),
-      map((ev:any) => JSON.parse(this.encrypt.CryptoJSAesDecrypt(key,ev.data)).data
-      
-        )
-      );
-  }
 }

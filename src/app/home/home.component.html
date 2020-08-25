@@ -1,1 +1,33 @@
-<p>home works!</p>
+<button (click)="getAllItems()">Get Items</button>
+<table>
+    <tr>
+        <th>ItemID</th>
+        <th>Name</th>
+        <th>Quantity</th>
+        <th></th>
+    </tr>
+    <tr *ngFor="let item of items">
+        <td>{{item.itemId}}</td>
+        <td>{{item.name}}</td>
+        <td>{{item.quantity}}</td>
+        <td><button (click)="deleteItem(item.itemId)">Delete</button></td>
+    </tr>
+</table>
+<br>
+<br>
+<button (click)="showAdd()">Add Item</button>
+<fieldset [formGroup]="form" *ngIf="add" style="width: 100px;">
+    Name: <input type="text" formControlName="name"><br>
+    Quantity: <input type="number" formControlName="quantity"><br>
+    <button (click)="addItem()">Add</button>
+</fieldset> 
+
+<button (click)="showUpdate()">Update Item</button>
+<fieldset [formGroup]="form" *ngIf="update" style="width: 100px;">
+    ItemId: <select formControlName="itemId" (change)="mapValue()"><br>
+                <option *ngFor="let item of items" [value]="item.itemId" >{{item.itemId}}</option>
+            </select>
+    Name: <input type="text" formControlName="name"><br>
+    Quantity: <input type="number" formControlName="quantity"><br>
+    <button (click)="updateItem()">Update</button>
+</fieldset> 
